@@ -19,6 +19,9 @@ def main(argv):
     for cls in registry.packet_managers:
         pm = cls()
         print(pm)
+        if pm.is_available():
+            updates = pm.detect_updates()
+            print(updates)
 
 
 if __name__ == "__main__":
