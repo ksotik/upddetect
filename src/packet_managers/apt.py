@@ -29,12 +29,17 @@ class AptPacketManager(PacketManager):
 
     def __detect(self, dist: bool = False, only_security: bool = False) -> list:
         if self.apt_path.find('apt-get') >= 0:
-            p1 = subprocess.Popen(['apt-get', '-s', 'dist-upgrade' if dist else 'upgrade', '-V'], stdout=subprocess.PIPE)
+            p1 = subprocess.Popen(['apt-get', '-s', 'dist-upgrade' if dist else 'upgrade', '-V'],
+                                  stdout=subprocess.PIPE)
             if only_security:
                 p2 = subprocess.run(['awk', '/^Inst.*security/ {print $2}'], stdin=p1.stdout, stdout=subprocess.PIPE)
             else:
                 p2 = subprocess.run(['awk', '/^Inst/ {print $2}'], stdin=p1.stdout, stdout=subprocess.PIPE)
             return p2.stdout.decode('utf-8').strip().split('\n')
+        elif self.apt_path.find('aptitude') >= 0:
+            pass  # TODO
+        elif self.apt_path.find('apt') >= 0:
+            pass  # TODO
         return []
 
     def detect_updates(self, only_security: bool = False) -> list:
