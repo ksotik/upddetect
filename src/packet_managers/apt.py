@@ -6,44 +6,48 @@ import subprocess
 
 class AptPacketManager(PacketManager):
 
-    apt_path = ""
-    apt_cmd = ""
-
     def __repr__(self) -> str:
         return "APT"
 
     def is_available(self) -> bool:
+        if PacketManager.is_available(self):
+            return True
+
         def which(s: str) -> str:
             p = subprocess.run(['which', s], stdout=subprocess.PIPE)
-            return p.stdout.decode('utf-8')
+            return p.stdout.decode('utf-8').strip()
 
-        self.apt_path = which('apt-get')
-        if self.apt_path:
-            self.apt_cmd = "apt-get"
-        if not self.apt_path:
-            self.apt_path = which('apt')
-            self.apt_cmd = "apt"
+        self.pm_path = which('apt-get')
+        if not self.pm_path:
+            self.pm_path = which('apt')
 
-        if self.apt_path:
+        if self.pm_path:
             return True
         else:
             return False
 
-    def __detect(self, dist: bool = False, only_security: bool = False) -> list:
-        if self.apt_path:
-            p1 = subprocess.Popen([self.apt_cmd, '-s', 'dist-upgrade' if dist else 'upgrade', '-V'],
-                                  stdout=subprocess.PIPE)
-            if only_security:
-                p2 = subprocess.run(['awk', '/^Inst.*security/ {print $2}'], stdin=p1.stdout, stdout=subprocess.PIPE)
-            else:
-                p2 = subprocess.run(['awk', '/^Inst/ {print $2}'], stdin=p1.stdout, stdout=subprocess.PIPE)
-            return p2.stdout.decode('utf-8').strip().split('\n')
-        return []
+    def find_all_instances(self) -> list:
+        return [self]
 
-    def detect_updates(self, only_security: bool = False) -> list:
+    def __detect(self, dist: bool = False, only_security: bool = False) -> (str, list):
+        if self.pm_path:
+            p1 = subprocess.run([self.pm_path, '-s', 'dist-upgrade' if dist else 'upgrade', '-V'],
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            if p1.stderr:
+                # TODO: обработка ошибки
+                return self.pm_path, []
+            if only_security:
+                p2 = subprocess.run(['awk', '/^Inst.*security/ {print $2}'], input=p1.stdout, stdout=subprocess.PIPE)
+            else:
+                p2 = subprocess.run(['awk', '/^Inst/ {print $2}'], input=p1.stdout, stdout=subprocess.PIPE)
+            return self.pm_path, p2.stdout.decode('utf-8').strip().split('\n')
+        else:
+            return None, []
+
+    def detect_updates(self, only_security: bool = False) -> (str, list):
         return self.__detect(dist=False, only_security=only_security)
 
-    def detect_dist_updates(self, only_security: bool = False) -> list:
+    def detect_dist_updates(self, only_security: bool = False) -> (str, list):
         return self.__detect(dist=True, only_security=only_security)
 
 
