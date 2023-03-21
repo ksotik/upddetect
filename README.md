@@ -2,7 +2,7 @@
 
 Command line tool for search and detect uninstalled security (and not only) updates in various Linux distributions.
 
-Currently it's only version 0.1. Feel free to test it, write issues and contribute!
+Currently it's just version 0.14. Feel free to test it, write issues and contribute!
 
 # Supported packet managers
 

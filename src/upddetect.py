@@ -2,7 +2,7 @@
 from src.common import registry
 from tabulate import tabulate
 from src.packet_managers.general import PacketManager
-from variables import BColors, __DESC__, __URL__, __AUTHOR__, __VERSION__, __LOGO__, __HELP__
+from src.variables import BColors, __DESC__, __URL__, __AUTHOR__, __VERSION__, __LOGO__, __HELP__
 import sys
 import getopt
 import tqdm
@@ -19,7 +19,9 @@ def print_welcome():
     print()
 
 
-def main(argv):
+def main():
+    argv = sys.argv[1:]
+
     only_security = dist_updates = all_updates = json_output = False
     updates1 = updates2 = []
     opts, args = getopt.getopt(argv, "hvsdaj")
@@ -112,4 +114,4 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main()
