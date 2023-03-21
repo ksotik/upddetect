@@ -1,40 +1,12 @@
 # -*- coding: utf-8 -*-
-from src.common import registry, BColors
+from src.common import registry
 from tabulate import tabulate
+from src.packet_managers.general import PacketManager
+from variables import BColors, __DESC__, __URL__, __AUTHOR__, __VERSION__, __LOGO__, __HELP__
 import sys
 import getopt
 import tqdm
 import json
-
-__VERSION__ = "0.1"
-__DESC__ = "Utility for outdated packages automatic detection"
-__AUTHOR__ = "ksot1k"
-__URL__ = "https://github.com/ksotik/upddetect"
-__LOGO__ = """
-                                                            ___                           ___     
-              ,-.----.        ,---,      ,---,            ,--.'|_                       ,--.'|_   
-         ,--, \    /  \     ,---.'|    ,---.'|            |  | :,'                      |  | :,'  
-       ,'_ /| |   :    |    |   | :    |   | :            :  : ' :                      :  : ' :  
-  .--. |  | : |   | .\ :    |   | |    |   | |   ,---.  .;__,'  /     ,---.     ,---. .;__,'  /   
-,'_ /| :  . | .   : |: |  ,--.__| |  ,--.__| |  /     \ |  |   |     /     \   /     \|  |   |    
-|  ' | |  . . |   |  \ : /   ,'   | /   ,'   | /    /  |:__,'| :    /    /  | /    / ':__,'| :    
-|  | ' |  | | |   : .  |.   '  /  |.   '  /  |.    ' / |  '  : |__ .    ' / |.    ' /   '  : |__  
-:  | : ;  ; | :     |`-''   ; |:  |'   ; |:  |'   ;   /|  |  | '.'|'   ;   /|'   ; :__  |  | '.'| 
-'  :  `--'   \:   : :   |   | '/  '|   | '/  ''   |  / |  ;  :    ;'   |  / |'   | '.'| ;  :    ; 
-:  ,      .-./|   | :   |   :    :||   :    :||   :    |  |  ,   / |   :    ||   :    : |  ,   /  
- `--`----'    `---'.|    \   \  /   \   \  /   \   \  /    ---`-'   \   \  /  \   \  /   ---`-'   
-                `---`     `----'     `----'     `----'               `----'    `----'             
-"""
-
-__HELP__ = BColors.BOLD + "usage: upddetect [options]" + BColors.ENDC + """
-Options:
--s: detect only security updates
--d: detect only dist updates
--a: detect all updates
--j: work silently, display json when finished
--v: show version"""
-
-from src.packet_managers.general import PacketManager
 
 
 def print_welcome():
@@ -70,6 +42,13 @@ def main(argv):
 
     if not json_output:
         print_welcome()
+
+        if only_security or dist_updates:
+            print(BColors.OKCYAN + BColors.BOLD + "You selected '%s updates' only mode, be carefully because it "
+                                                  "could skip another updates" %
+                  ("security" if only_security else "dist") + BColors.ENDC)
+            print()
+
         print(BColors.HEADER + "Supported packet managers:" + BColors.ENDC)
         for cls in registry.packet_managers:
             print(BColors.OKBLUE + "* " + cls.get_human_name() + BColors.ENDC)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from abc import ABC, abstractmethod
-from src.common import BColors
+from variables import BColors
 import os
 import subprocess
 import sys
