@@ -1,6 +1,6 @@
 # upddetect
 
-Command line tool for search and detect uninstalled security (and not only) updates in various Linux distributions.
+Command line tool for search and detect available security (and not only) updates in various Linux distributions.
 
 Currently it's just version 0.14. Feel free to test it, write issues and contribute!
 
@@ -18,7 +18,7 @@ pip install upddetect
 # Usage
 
 ```
-usage: upddetect [options]
+usage: python -m upddetect [options]
 Options:
 -s: detect only security updates
 -d: detect only dist updates
