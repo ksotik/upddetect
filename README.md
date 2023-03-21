@@ -2,7 +2,7 @@
 
 Command line tool for search and detect available security (and not only) updates in various Linux distributions.
 
-Currently it's just version 0.14. Feel free to test it, write issues and contribute!
+Currently it's just version 0.21. Feel free to test it, write issues and contribute!
 
 # Supported packet managers
 
@@ -18,7 +18,7 @@ pip install upddetect
 # Usage
 
 ```
-usage: python -m upddetect [options]
+usage: upddetect [options]
 Options:
 -s: detect only security updates
 -d: detect only dist updates

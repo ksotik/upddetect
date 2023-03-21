@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from src.common import registry
+from upddetect.common import registry
 from tabulate import tabulate
-from src.packet_managers.general import PacketManager
-from src.variables import BColors, __DESC__, __URL__, __AUTHOR__, __VERSION__, __LOGO__, __HELP__
+from upddetect.packet_managers.general import PacketManager
+from upddetect.variables import BColors, __DESC__, __URL__, __AUTHOR__, __VERSION__, __LOGO__, __HELP__
 import sys
 import getopt
 import tqdm

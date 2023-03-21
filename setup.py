@@ -1,12 +1,12 @@
 from setuptools import setup
-from src.variables import __VERSION__, __DESC__, __URL__, __AUTHOR__
+from upddetect.variables import __VERSION__, __DESC__, __URL__, __AUTHOR__
 
 setup(
     name="upddetect",
-    packages=["src"],
+    packages=["upddetect", "upddetect.common", "upddetect.packet_managers"],
     entry_points={
         'console_scripts': [
-            'upddetect=src.upddetect:main'
+            'upddetect=upddetect.upddetect:main'
         ]
     },
     description=__DESC__,

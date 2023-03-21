@@ -10,4 +10,4 @@ __all__ = [basename(f)[:-3] for f in modules if isfile(f)]
 for module in __all__:
     if "__init__" in module or "general" in module:
         continue
-    importlib.import_module("src.packet_managers." + module)  # import module for adding it to the registry
+    importlib.import_module("upddetect.packet_managers." + module)  # import module for adding it to the registry

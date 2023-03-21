@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from .general import PacketManager
-from src.common import registry
+from upddetect.common import registry
 import subprocess
 import re
 import json
