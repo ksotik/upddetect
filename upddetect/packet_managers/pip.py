@@ -102,7 +102,7 @@ class PipPacketManager(PacketManager):
         if self.pm_path:
             res = []
             if only_security:
-                safety_path = self.which("safety")
+                safety_path = self.which("safety", False)
                 if not safety_path:
                     self.print_error("safety python package not found, please install it to enable the ability "
                                      "to detect security updates:\npip3 install safety")

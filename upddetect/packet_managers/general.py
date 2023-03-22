@@ -27,9 +27,15 @@ class PacketManager(ABC):
         return "abstract_packet_manager"
 
     @staticmethod
-    def which(s: str) -> str:
-        p = subprocess.run(['/usr/bin/which', s], stdout=subprocess.PIPE)
-        return p.stdout.decode('utf-8').strip()
+    def which(s: str, skip_venv: bool = True) -> str:
+        p = subprocess.run(["/usr/bin/which", "-a", s], stdout=subprocess.PIPE)
+        variants = p.stdout.decode('utf-8').strip().split("\n")
+        base_prefix = getattr(sys, "base_prefix", None) or getattr(sys, "real_prefix", None) or sys.prefix
+        for var in variants:
+            if skip_venv and base_prefix != sys.prefix and "{}/bin/{}".format(sys.prefix, s) == var:
+                continue
+            return var
+        return ""
 
     def is_available(self) -> bool:
         if self.pm_path:
@@ -40,6 +46,8 @@ class PacketManager(ABC):
                 self.print_error("%s is not executable" % self.pm_path)
                 return False
             return True
+        else:
+            return False
 
     def detect_updates(self, only_security: bool = False) -> (str, list):
         return None, []
