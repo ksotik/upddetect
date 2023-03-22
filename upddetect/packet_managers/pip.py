@@ -159,8 +159,8 @@ class PipPacketManager(PacketManager):
                     stderr = p.stderr.decode("utf-8")
                     if "new release" in stderr:
                         pass
-                    elif "You are using pip version" in stderr:
-                        s = stderr.split(" ")
+                    elif "WARNING: You are using pip version" in stderr:
+                        s = stderr[stderr.find("WARNING: You are using pip version"):].split(" ")
                         res.append(self.make_result_line(s[4], s[6][0:-1], s[9], stderr, self.colorize))
                     else:
                         self.print_error(stderr)

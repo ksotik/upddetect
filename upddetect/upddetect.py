@@ -72,7 +72,7 @@ def main():
                 if dist_updates or all_updates:
                     p, updates2 = pm.detect_dist_updates(only_security)
                 if all_updates:
-                    all_updates = list(set(updates1 + updates2))
+                    all_updates = updates1 + updates2
                     packages.append({
                         'pm': str(pm),
                         'type': pm.get_type(),

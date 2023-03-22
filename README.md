@@ -2,7 +2,7 @@
 
 Command line tool for search and detect available security (and not only) updates in various Linux distributions.
 
-Currently it's just version 0.21. Feel free to test it, write issues and contribute!
+Currently it's just early version. Feel free to test it, write issues and contribute!
 
 # Supported packet managers
 

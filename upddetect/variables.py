@@ -12,7 +12,7 @@ class BColors:
     UNDERLINE = '\033[4m'
 
 
-__VERSION__ = "0.21"
+__VERSION__ = "0.22"
 __DESC__ = "Utility for outdated packages automatic detection"
 __AUTHOR__ = "ksot1k"
 __URL__ = "https://github.com/ksotik/upddetect"
