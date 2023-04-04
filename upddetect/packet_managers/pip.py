@@ -99,6 +99,7 @@ class PipPacketManager(PacketManager):
             return False
 
     def detect_updates(self, only_security: bool = False) -> (str, list):
+        os.environ['PYTHONHOME'] = ""
         if self.pm_path:
             res = []
             if only_security:
