@@ -26,6 +26,9 @@ class PacketManager(ABC):
     def get_type() -> str:
         return "abstract_packet_manager"
 
+    def get_pm_path(self) -> str:
+        return self.pm_path
+
     @staticmethod
     def which(s: str, skip_venv: bool = True) -> str:
         p = subprocess.run(["/usr/bin/which", "-a", s], stdout=subprocess.PIPE)

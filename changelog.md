@@ -1,5 +1,9 @@
 # Changelog
 
+## Release 0.23.2
+## Improvements
+* Skip already checked packet managers (incl. symlinks to pip)
+
 ## Release 0.23.1
 ## Improvements
 * Now it can correct work when executed from virtualenv

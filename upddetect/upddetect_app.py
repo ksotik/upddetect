@@ -2,11 +2,13 @@
 from upddetect.common import registry
 from tabulate import tabulate
 from upddetect.packet_managers.general import PacketManager
+from upddetect.packet_managers import apt, pip  # needed for nuitka compiler
 from upddetect.variables import BColors, __DESC__, __URL__, __AUTHOR__, __VERSION__, __LOGO__, __HELP__
 import sys
 import getopt
 import tqdm
 import json
+import os
 
 
 def print_welcome():
@@ -59,6 +61,7 @@ def main():
         print()
         print(BColors.HEADER + "Scan outdated packages:" + BColors.ENDC)
     packages = []
+    pms = []
     for cls in registry.packet_managers:
         pm_root = cls(colorize=not json_output)
         pm_instances = pm_root.find_all_instances()
@@ -66,6 +69,12 @@ def main():
         progress = tqdm.tqdm(pm_instances, ascii=True, disable=json_output)
         for pm in progress:
             if pm.is_available():
+                real_path = os.path.realpath(pm.get_pm_path())
+                if real_path not in pms:
+                    pms.append(real_path)
+                else:
+                    continue
+
                 progress.set_description("%s" % pm)
                 if not dist_updates or all_updates:
                     p, updates1 = pm.detect_updates(only_security)
