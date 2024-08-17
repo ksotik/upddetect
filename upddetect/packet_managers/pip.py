@@ -135,7 +135,11 @@ class PipPacketManager(PacketManager):
                 merged = {}
                 for s in out['vulnerabilities']:
                     package = s['package_name']
-                    rec_ver = self.__find_recommended_version(s['vulnerable_spec'])
+                    if isinstance(s['vulnerable_spec'], list):
+                        vulnerable_spec = s['vulnerable_spec'][0]
+                    else:
+                        vulnerable_spec = s['vulnerable_spec']
+                    rec_ver = self.__find_recommended_version(vulnerable_spec)
                     curr_ver = s['analyzed_version']
                     desc = s['advisory']
                     if package in merged:
